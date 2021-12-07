@@ -542,7 +542,7 @@ def train():
         images, poses, bds, render_poses, i_test = load_llff_data(args.datadir, args.factor,
                                                                   recenter=True, bd_factor=.75,
                                                                   spherify=args.spherify)
-        hwf = poses[0,:3,-1]
+        hwf = poses[0,:3,-1]#Maybe？ Height，weight，focal？
         poses = poses[:,:3,:4]
         print('Loaded llff', images.shape, render_poses.shape, hwf, args.datadir)
         if not isinstance(i_test, list):
@@ -608,10 +608,11 @@ def train():
         return
 
     # Cast intrinsics to right types
+
     H, W, focal = hwf
     H, W = int(H), int(W)
     hwf = [H, W, focal]
-
+    # 内参阵
     if K is None:
         K = np.array([
             [focal, 0, 0.5*W],
